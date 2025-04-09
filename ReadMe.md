@@ -15,8 +15,7 @@ Clone the repository and set up your Python virtual environment:
 git clone https://github.com/auteqia/ez-c2.git
 cd ez-c2/
 python3 -m venv venv
-chmod +x ./venv/bin/activate
-./venv/bin/activate
+source ./venv/bin/activate
 ```
 
 Install any dependencies if required :

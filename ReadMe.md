@@ -19,8 +19,7 @@ chmod +x ./venv/bin/activate
 ./venv/bin/activate
 ```
 
-Install any dependencies if required (Add this if your script has a requirements.txt): 
-
+Install any dependencies if required :
 ```bash
 pip install -r requirements.txt
 ```

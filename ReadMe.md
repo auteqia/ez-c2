@@ -63,4 +63,10 @@ Once connected, ez-c2 allows the operator to:
 - Maintain persistent shell access (implementation dependent)
     
 
+# What is server.crt and server.key 
+
+server.crt is the public key of the server and server.key is the private key of the server. Please regenerate them (if you want to..) with this command :
+```bash
+openssl req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
+```
 

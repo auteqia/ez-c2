@@ -6,7 +6,6 @@ import sys
 import io
 import contextlib
 import json
-import time
 import ssl
 
 
